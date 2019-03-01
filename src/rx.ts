@@ -34,6 +34,16 @@ export class RxObject<T> {
         })
         return newRx;
     }
+    static fromPromise<K>(func: Promise<K>) {
+        const newRx = new RxObject<K>();
+        newRx.onSubscribe(() => {
+            func.then(v => {
+                newRx.next(v);
+                newRx.complete();
+            });
+        });
+        return newRx;
+    }
     static fromValue<T>(v: T) {
         return RxObject.generate(1, i => v);
     }
@@ -119,6 +129,16 @@ export class RxObject<T> {
                 },
             )
         }, true)
+        return newRx;
+    }
+    switchMap<K>(handler: (v: T) => RxObject<K>) {
+        const newRx = new RxObject<K>();
+        this.onCompleted(() => {newRx.complete()});
+        newRx.onSubscribe(() => {
+            this.subscribe((v) => {
+                handler(v).subscribe(_v => newRx.next(_v));
+            })
+        })
         return newRx;
     }
     // 把所有的值进行汇总
@@ -262,6 +282,7 @@ export class RxObject<T> {
             inited = true;
             handler();
         });
+        return this;
     }
     // 取消某个函数对应的监听
     unsubscribe(handler?: (value: T, index: number) => void) {
@@ -391,5 +412,6 @@ export class RxObject<T> {
     // 流完成了 一个流完成后需要做的事情
     onCompleted(handler: () => void) {
         this.completedHandlers.push(handler);
+        return this;
     }
 }
