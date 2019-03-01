@@ -1,0 +1,26 @@
+{
+  "name": "qzx-rx",
+  "version": "1.0.0",
+  "description": "small rx",
+  "main": "build/dist/rx.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/zxqian1991/qzx-rx.git"
+  },
+  "keywords": [
+    "rx"
+  ],
+  "author": "qianzhixiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zxqian1991/qzx-rx/issues"
+  },
+  "homepage": "https://github.com/zxqian1991/qzx-rx#readme",
+  "dependencies": {
+    "@types/node": "^11.9.6",
+    "tslib": "^1.9.3"
+  }
+}
